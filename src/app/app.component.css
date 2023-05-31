@@ -1,4 +1,5 @@
 /* AppComponent's private CSS styles */
+
 h1 {
   margin-bottom: 0;
 }
@@ -15,6 +16,10 @@ nav a {
 
 nav a:first-child {
   margin-right: 10px;
+}
+
+nav a:last-child {
+  margin-left: 10px;
 }
 
 nav a:hover {

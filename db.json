@@ -1,0 +1,28 @@
+{
+  "heroes": [
+    {
+      "id": 1,
+      "name": "kinley",
+      "age": "2",
+      "clan": "ok",
+      "ability": "s",
+      "highestXP:": "200"
+    },
+    {
+      "id": 1,
+      "name": "kinley",
+      "age": "2",
+      "clan": "ok",
+      "ability": "s",
+      "highestXP:": "200"
+    },
+    {
+      "id": 1,
+      "name": "kinley",
+      "age": "2",
+      "clan": "ok",
+      "ability": "s",
+      "highestXP:": "200"
+    }
+  ]
+}

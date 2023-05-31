@@ -1,0 +1,139 @@
+<form class="form" [formGroup]="registerHeroGroup" (ngSubmit)="onSubmit()">
+  <div class="form-headers">
+    <h1>Add your heroes</h1>
+    <mat-icon
+      mat-icon-button
+      (click)="closePopup()"
+      fontIcon="close"
+    ></mat-icon>
+  </div>
+
+  <div class="form-inputs">
+    <mat-form-field>
+      <mat-label>Name</mat-label>
+      <input
+        matInput
+        formControlName="nameFormControl"
+        [errorStateMatcher]="matcher"
+        placeholder="Ex. Domchu"
+      />
+      <mat-error
+        *ngIf="
+          getFormControl('nameFormControl')?.invalid &&
+          (getFormControl('nameFormControl')?.touched ||
+            getFormControl('nameFormControl')?.dirty)
+        "
+      >
+        <span *ngIf="getFormControl('nameFormControl')?.errors?.['required']"
+          >Name is <strong>required</strong></span
+        >
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Age</mat-label>
+      <mat-select
+        formControlName="ageFormControl"
+        [errorStateMatcher]="matcher"
+      >
+        <mat-option value="one">1</mat-option>
+        <mat-option value="two">2</mat-option>
+      </mat-select>
+      <mat-error
+        *ngIf="
+          getFormControl('ageFormControl')?.invalid &&
+          (getFormControl('ageFormControl')?.touched ||
+            getFormControl('ageFormControl')?.dirty)
+        "
+      >
+        <span *ngIf="getFormControl('ageFormControl')?.errors?.['required']">
+          Age is <strong>required</strong></span
+        >
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Clan</mat-label>
+      <input
+        matInput
+        formControlName="clanFormControl"
+        [errorStateMatcher]="matcher"
+        placeholder="Ex. Tiger"
+      />
+      <mat-error
+        *ngIf="
+          getFormControl('clanFormControl')?.invalid &&
+          (getFormControl('clanFormControl')?.touched ||
+            getFormControl('clanFormControl')?.dirty)
+        "
+      >
+        <span *ngIf="getFormControl('clanFormControl')?.errors?.['required']">
+          Clan is <strong>required</strong>
+        </span>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Ability</mat-label>
+      <input
+        matInput
+        formControlName="abilityFormControl"
+        [errorStateMatcher]="matcher"
+        placeholder="Ex. Firestorm"
+      />
+      <mat-error
+        *ngIf="
+          getFormControl('abilityFormControl')?.invalid &&
+          (getFormControl('abilityFormControl')?.touched ||
+            getFormControl('abilityFormControl')?.dirty)
+        "
+      >
+        <span
+          *ngIf="getFormControl('abilityFormControl')?.errors?.['required']"
+        >
+          Hero ability is <strong>required</strong>
+        </span>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Hihest XP</mat-label>
+      <input
+        matInput
+        formControlName="xpFormControl"
+        [errorStateMatcher]="matcher"
+        placeholder="Ex. 2000"
+      />
+      <mat-error
+        *ngIf="
+          getFormControl('xpFormControl')?.invalid &&
+          (getFormControl('xpFormControl')?.touched ||
+            getFormControl('xpFormControl')?.dirty)
+        "
+      >
+        <span *ngIf="getFormControl('xpFormControl')?.errors?.['required']"
+          >Hero XP is <strong>required</strong></span
+        >
+      </mat-error>
+    </mat-form-field>
+
+    <div class="form-actions">
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        [disabled]="registerHeroGroup.invalid"
+      >
+        Submit
+      </button>
+      <button
+        mat-flat-button
+        class="form-action-cancel"
+        type="button"
+        (click)="closePopup()"
+      >
+        Cancel
+      </button>
+    </div>
+  </div>
+</form>

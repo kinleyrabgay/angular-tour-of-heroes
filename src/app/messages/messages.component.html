@@ -2,6 +2,6 @@
   <h2>Messages</h2>
   <p *ngFor="let message of messageService.messages">{{ message }}</p>
   <button type="button" class="clear" (click)="messageService.clear()">
-    Clear message
+    {{ buttonName }}
   </button>
 </div>

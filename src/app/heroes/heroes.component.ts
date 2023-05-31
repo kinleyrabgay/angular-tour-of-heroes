@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 import { Hero } from '../hero';
 import { HeroService } from '../hero.service';
@@ -9,6 +9,8 @@ import { HeroService } from '../hero.service';
   styleUrls: ['./heroes.component.css'],
 })
 export class HeroesComponent implements OnInit {
+  @Input() title: string = 'My Heros';
+  // comes from services
   heroes: Hero[] = [];
 
   constructor(private heroService: HeroService) {}
@@ -32,6 +34,12 @@ export class HeroesComponent implements OnInit {
   }
 
   delete(hero: Hero): void {
+    this.heroes = this.heroes.filter((h) => h !== hero);
+    this.heroService.deleteHero(hero.id).subscribe();
+  }
+
+  deleteHero(hero: Hero): void {
+    console.log('Called H');
     this.heroes = this.heroes.filter((h) => h !== hero);
     this.heroService.deleteHero(hero.id).subscribe();
   }
