@@ -4,9 +4,9 @@
       "id": 1,
       "name": "Tiger",
       "age": "2",
-      "clan": "Assasin",
-      "ability": "Firestorm",
-      "highestXP": "2000"
+      "clan": "Marksman",
+      "ability": "Healer",
+      "highestXP": "1500"
     },
     {
       "id": 2,
@@ -25,20 +25,20 @@
       "highestXP": "1700"
     },
     {
+      "id": 4,
+      "name": "Lyala",
+      "age": "3",
+      "clan": "Marksman",
+      "ability": "Healer",
+      "highestXP": "1700"
+    },
+    {
       "id": 5,
       "name": "Bear",
       "age": "3",
       "clan": "Tank",
       "ability": "Defensive",
       "highestXP": "4000"
-    },
-    {
-      "id": 6,
-      "name": "Lion",
-      "age": "5",
-      "clan": "Fighter",
-      "ability": "Firestorm",
-      "highestXP": "3500"
     }
   ]
 }

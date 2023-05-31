@@ -5,6 +5,7 @@ import { CrudService } from '../api/crud.service';
 import { tap, catchError } from 'rxjs/operators';
 import { Hero } from '../model/hero';
 import { throwError } from 'rxjs';
+import { ConfirmationComponent } from '../components/confirmation/confirmation.component';
 
 @Component({
   selector: 'app-cards',
@@ -38,23 +39,50 @@ export class CardsComponent implements OnInit {
       .subscribe();
   }
 
+  // deleteHero(id: number): void {
+  //   if (confirm('Are you sure you want to delete this hero?')) {
+  //     this.crudService
+  //       .deleteHero(id)
+  //       .pipe(
+  //         catchError((error: any) => {
+  //           console.log(error);
+  //           alert('Unable to delete hero');
+  //           return throwError(error);
+  //         })
+  //       )
+  //       .subscribe(() => {
+  //         this.heroesArr = this.heroesArr.filter((h: Hero) => h.id !== id);
+  //         // Refresh the table data after delete
+  //         this.ngOnInit();
+  //       });
+  //   }
+  // }
+
   deleteHero(id: number): void {
-    if (confirm('Are you sure you want to delete this hero?')) {
-      this.crudService
-        .deleteHero(id)
-        .pipe(
-          catchError((error: any) => {
-            console.log(error);
-            alert('Unable to delete hero');
-            return throwError(error);
-          })
-        )
-        .subscribe(() => {
-          this.heroesArr = this.heroesArr.filter((h: Hero) => h.id !== id);
-          // Refresh the table data after delete
-          this.ngOnInit();
-        });
-    }
+    const dialogRef = this.dialog.open(ConfirmationComponent, {
+      data: {
+        message: 'Are you sure you want to delete this hero?',
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.crudService
+          .deleteHero(id)
+          .pipe(
+            catchError((error: any) => {
+              console.log(error);
+              alert('Unable to delete hero');
+              return throwError(error);
+            })
+          )
+          .subscribe(() => {
+            this.heroesArr = this.heroesArr.filter((h: Hero) => h.id !== id);
+            // Refresh the table data after delete
+            this.ngOnInit();
+          });
+      }
+    });
   }
 
   openForm() {

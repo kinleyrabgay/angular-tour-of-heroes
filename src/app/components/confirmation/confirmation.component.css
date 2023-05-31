@@ -1,0 +1,26 @@
+.confirmation-header {
+  padding: 0.5rem;
+
+  .confirmation-action {
+    padding: 0 1.5rem;
+
+    .confirmation-action-delete {
+      background-color: rgb(254, 80, 80);
+      color: white;
+
+      &:hover {
+        background-color: red;
+      }
+    }
+
+    .confirmation-action-cancel {
+        background-color: rgb(215, 216, 213);
+        color: black;
+  
+        &:hover {
+          background-color: rgb(70, 70, 70);
+          color: white;
+        }
+      }
+  }
+}

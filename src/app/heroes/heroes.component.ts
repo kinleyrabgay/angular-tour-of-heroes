@@ -16,6 +16,7 @@ import { FormComponent } from '../components/form/form.component';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { ConfirmationComponent } from '../components/confirmation/confirmation.component';
 
 @Component({
   selector: 'app-heroes',
@@ -96,24 +97,32 @@ export class HeroesComponent implements OnInit, AfterViewInit {
   }
 
   deleteHero(id: number): void {
-    if (confirm('Are you sure you want to delete this hero?')) {
-      this.crudService
-        .deleteHero(id)
-        .pipe(
-          catchError((error: any) => {
-            console.log(error);
-            alert('Unable to delete hero');
-            return throwError(error);
-          })
-        )
-        .subscribe(() => {
-          this.displayDatas.data = this.displayDatas.data.filter(
-            (h: Hero) => h.id !== id
-          );
-          // Refresh the table data after delete
-          this.ngOnInit();
-        });
-    }
+    const dialogRef = this.dialog.open(ConfirmationComponent, {
+      data: {
+        message: 'Are you sure you want to delete this hero?',
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.crudService
+          .deleteHero(id)
+          .pipe(
+            catchError((error: any) => {
+              console.log(error);
+              alert('Unable to delete hero');
+              return throwError(error);
+            })
+          )
+          .subscribe(() => {
+            this.displayDatas.data = this.displayDatas.data.filter(
+              (h: Hero) => h.id !== id
+            );
+            // Refresh the table data after delete
+            this.ngOnInit();
+          });
+      }
+    });
   }
 
   // TUTORIAL-1 (IN-MEMORY)

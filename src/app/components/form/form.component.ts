@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { tap } from 'rxjs/operators';
 
 import {
@@ -13,6 +13,7 @@ import {
 import { ErrorStateMatcher } from '@angular/material/core';
 import { CrudService } from 'src/app/api/crud.service';
 import { Hero } from 'src/app/model/hero';
+import { ConfirmationComponent } from '../confirmation/confirmation.component';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(
@@ -36,12 +37,14 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 export class FormComponent {
   matcher = new MyErrorStateMatcher();
   heroObj: Hero = new Hero();
+  dialogRef: MatDialogRef<FormComponent> | null = null;
 
   // FormGroup
   registerHeroGroup: FormGroup;
   constructor(
     private ref: MatDialogRef<FormComponent>,
-    private crudService: CrudService
+    private crudService: CrudService,
+    private dialog: MatDialog
   ) {
     // create a reactive form
     this.registerHeroGroup = new FormGroup({

@@ -28,6 +28,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
+import { ConfirmationComponent } from './components/confirmation/confirmation.component';
 
 @NgModule({
   imports: [
@@ -59,6 +60,7 @@ import { MatCardModule } from '@angular/material/card';
     HeroSearchComponent,
     CardsComponent,
     FormComponent,
+    ConfirmationComponent,
   ],
   bootstrap: [AppComponent],
 })
