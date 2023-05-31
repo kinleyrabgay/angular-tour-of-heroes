@@ -30,6 +30,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { ConfirmationComponent } from './components/confirmation/confirmation.component';
 import { EditComponent } from './components/edit/edit.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   imports: [
@@ -51,13 +53,15 @@ import { EditComponent } from './components/edit/edit.component';
     MatSelectModule,
     MatIconModule,
     MatCardModule,
+    MatPaginatorModule,
+    MatTableModule,
   ],
   declarations: [
     AppComponent,
     DashboardComponent,
-    // HeroesComponent,
     HeroDetailComponent,
     MessagesComponent,
+    HeroesComponent,
     HeroSearchComponent,
     CardsComponent,
     FormComponent,

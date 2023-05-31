@@ -8,14 +8,11 @@ import {
 import { CrudService } from '../api/crud.service';
 import { catchError, tap } from 'rxjs/operators';
 import { Hero } from '../model/hero';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { CommonModule } from '@angular/common';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 import { throwError } from 'rxjs';
 import { FormComponent } from '../components/form/form.component';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
 import { ConfirmationComponent } from '../components/confirmation/confirmation.component';
 import { EditComponent } from '../components/edit/edit.component';
 
@@ -23,14 +20,6 @@ import { EditComponent } from '../components/edit/edit.component';
   selector: 'app-heroes',
   templateUrl: './heroes.component.html',
   styleUrls: ['./heroes.component.css'],
-  standalone: true,
-  imports: [
-    MatTableModule,
-    MatPaginatorModule,
-    CommonModule,
-    MatIconModule,
-    MatButtonModule,
-  ],
 })
 export class HeroesComponent implements OnInit, AfterViewInit {
   @Input() title: string = 'My Heros List';
@@ -131,6 +120,7 @@ export class HeroesComponent implements OnInit, AfterViewInit {
       width: '50%',
       data: {
         message: id,
+        type: 'edit',
       },
     });
     dialogRef.afterClosed().subscribe((result) => {

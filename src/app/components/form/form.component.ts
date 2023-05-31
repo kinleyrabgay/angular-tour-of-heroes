@@ -1,5 +1,9 @@
-import { Component } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { Component, Inject } from '@angular/core';
+import {
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import { tap } from 'rxjs/operators';
 
 import {
@@ -44,7 +48,8 @@ export class FormComponent {
   constructor(
     private ref: MatDialogRef<FormComponent>,
     private crudService: CrudService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    @Inject(MAT_DIALOG_DATA) public data: { message: number; type: string }
   ) {
     // create a reactive form
     this.registerHeroGroup = new FormGroup({

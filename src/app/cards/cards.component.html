@@ -35,6 +35,13 @@
           <button mat-mini-fab color="primary" (click)="editHero(hero.id)">
             <mat-icon>edit</mat-icon>
           </button>
+          <button
+            mat-mini-fab
+            color="primary"
+            routerLink="/detail/{{ hero.id }}"
+          >
+            <mat-icon>visibility</mat-icon>
+          </button>
         </div>
       </mat-card-actions>
     </mat-card>
