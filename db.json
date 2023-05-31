@@ -2,27 +2,43 @@
   "heroes": [
     {
       "id": 1,
-      "name": "kinley",
+      "name": "Tiger",
       "age": "2",
-      "clan": "ok",
-      "ability": "s",
-      "highestXP:": "200"
+      "clan": "Assasin",
+      "ability": "Firestorm",
+      "highestXP": "2000"
     },
     {
-      "id": 1,
-      "name": "kinley",
+      "id": 2,
+      "name": "Doggy",
       "age": "2",
-      "clan": "ok",
-      "ability": "s",
-      "highestXP:": "200"
+      "clan": "Marksman",
+      "ability": "Healer",
+      "highestXP": "1500"
     },
     {
-      "id": 1,
-      "name": "kinley",
-      "age": "2",
-      "clan": "ok",
-      "ability": "s",
-      "highestXP:": "200"
+      "id": 3,
+      "name": "Lyala",
+      "age": "3",
+      "clan": "Marksman",
+      "ability": "Healer",
+      "highestXP": "1700"
+    },
+    {
+      "id": 5,
+      "name": "Bear",
+      "age": "3",
+      "clan": "Tank",
+      "ability": "Defensive",
+      "highestXP": "4000"
+    },
+    {
+      "id": 6,
+      "name": "Lion",
+      "age": "5",
+      "clan": "Fighter",
+      "ability": "Firestorm",
+      "highestXP": "3500"
     }
   ]
 }

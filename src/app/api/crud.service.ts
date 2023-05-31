@@ -7,7 +7,29 @@ import { Hero } from '../model/hero';
   providedIn: 'root',
 })
 export class CrudService {
-  constructor(private http: HttpClient) {}
-  // end-point
-  apiUrl = 'http://localhost:3000/heroes';
+  apiURL: string;
+
+  constructor(private http: HttpClient) {
+    this.apiURL = 'http://localhost:3000/heroes';
+  }
+
+  addHero(hero: Hero): Observable<Hero> {
+    return this.http.post<Hero>(this.apiURL, hero);
+  }
+
+  getAllHero(): Observable<Hero[]> {
+    return this.http.get<Hero[]>(this.apiURL);
+  }
+
+  deleteHerok(hero: Hero): Observable<Hero> {
+    return this.http.delete<Hero>(this.apiURL + '/' + hero.id);
+  }
+
+  deleteHero(id: number): Observable<Hero> {
+    return this.http.delete<Hero>(`${this.apiURL}/${id}`);
+  }
+
+  editHero(hero: Hero): Observable<Hero> {
+    return this.http.put<Hero>(this.apiURL + '/' + hero.id, hero);
+  }
 }

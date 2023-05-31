@@ -1,31 +1,76 @@
-<h2>{{ title }}</h2>
+<div class="mat-elevation-z8" id="hero-list-table">
+  <div class="table-header">
+    <h1 class="table-title">{{ title }}</h1>
+    <div class="header-form-button">
+      <button mat-fab color="primary" (click)="openForm()">
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+  </div>
+  <hr />
+  <table mat-table [dataSource]="displayDatas" class="table-data mat-table">
+    <!-- ID Column -->
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef>ID</th>
+      <td mat-cell *matCellDef="let hero">{{ hero.id }}</td>
+    </ng-container>
 
-<div>
-  <label for="new-hero">Hero name: </label>
-  <input id="new-hero" #heroName />
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Name</th>
+      <td mat-cell *matCellDef="let hero">{{ hero.name }}</td>
+    </ng-container>
 
-  <!-- (click) passes input value to add() and then clears the input -->
-  <button
-    type="button"
-    class="add-button"
-    (click)="add(heroName.value); heroName.value = ''"
+    <!-- Age Column -->
+    <ng-container matColumnDef="age">
+      <th mat-header-cell *matHeaderCellDef>Age</th>
+      <td mat-cell *matCellDef="let hero">{{ hero.age }}</td>
+    </ng-container>
+
+    <!-- Clan Column -->
+    <ng-container matColumnDef="clan">
+      <th mat-header-cell *matHeaderCellDef>Clan</th>
+      <td mat-cell *matCellDef="let hero">{{ hero.clan }}</td>
+    </ng-container>
+
+    <!-- Ability Column -->
+    <ng-container matColumnDef="ability">
+      <th mat-header-cell *matHeaderCellDef>Ability</th>
+      <td mat-cell *matCellDef="let hero">{{ hero.ability }}</td>
+    </ng-container>
+
+    <!-- Highest XP Column -->
+    <ng-container matColumnDef="highestXP">
+      <th mat-header-cell *matHeaderCellDef>Highest XP</th>
+      <td mat-cell *matCellDef="let hero">{{ hero.highestXP }}</td>
+    </ng-container>
+
+    <!-- Action Column -->
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef>Action</th>
+      <td mat-cell *matCellDef="let hero">
+        <div class="flex-container">
+          <div class="button-container">
+            <button mat-mini-fab color="warn" (click)="deleteHero(hero.id)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+          <div class="button-container">
+            <button mat-mini-fab color="primary">
+              <mat-icon>edit</mat-icon>
+            </button>
+          </div>
+        </div>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let hero; columns: displayedColumns"></tr>
+  </table>
+
+  <mat-paginator
+    [pageSizeOptions]="[3, 6, 9, 12, 15, 18, 21, 24, 27, 30]"
+    showFirstLastButtons
   >
-    Add
-  </button>
+  </mat-paginator>
 </div>
-
-<ul class="heroes">
-  <li *ngFor="let hero of heroes">
-    <a routerLink="/detail/{{ hero.id }}">
-      <span class="badge">{{ hero.id }}</span> {{ hero.name }}
-    </a>
-    <button
-      type="button"
-      class="delete"
-      title="delete hero"
-      (click)="delete(hero)"
-    >
-      x
-    </button>
-  </li>
-</ul>

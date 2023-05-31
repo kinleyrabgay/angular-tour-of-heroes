@@ -1,0 +1,27 @@
+.card {
+  max-width: 250px;
+  border: 1px solid #d8d6d6;
+  .header-image {
+    background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+    background-size: cover;
+  }
+
+  .hero-content {
+    font-size: 0.9rem;
+    line-height: 1.4;
+    padding: 10px;
+
+    &:p {
+      margin: 0;
+      padding: 5px 0;
+    }
+  }
+}
+
+
+.hero-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 200px);
+    gap: 20px;
+    margin-top: 20px;
+  }

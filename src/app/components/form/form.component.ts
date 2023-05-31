@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
+import { tap } from 'rxjs/operators';
+
 import {
   FormControl,
   FormGroupDirective,
@@ -31,7 +33,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.css'],
 })
-export class FormComponent implements OnInit {
+export class FormComponent {
   matcher = new MyErrorStateMatcher();
   heroObj: Hero = new Hero();
 
@@ -41,16 +43,15 @@ export class FormComponent implements OnInit {
     private ref: MatDialogRef<FormComponent>,
     private crudService: CrudService
   ) {
+    // create a reactive form
     this.registerHeroGroup = new FormGroup({
       nameFormControl: new FormControl('', [Validators.required]),
       abilityFormControl: new FormControl('', [Validators.required]),
       clanFormControl: new FormControl('', [Validators.required]),
-      ageFormControl: new FormControl('', [Validators.required]),
+      ageFormControl: new FormControl(0, [Validators.required]),
       xpFormControl: new FormControl('', [Validators.required]),
     });
   }
-
-  ngOnInit(): void {}
 
   // Add the hero to the json-server
   onSubmit() {
@@ -62,22 +63,29 @@ export class FormComponent implements OnInit {
       xpFormControl,
     } = this.registerHeroGroup.value;
 
-    this.heroObj = {
-      id: 0,
-      name: nameFormControl,
-      age: ageFormControl,
-      ability: abilityFormControl,
-      clan: clanFormControl,
-      highestXP: xpFormControl,
-    };
+    this.heroObj.name = nameFormControl;
+    this.heroObj.age = ageFormControl;
+    this.heroObj.ability = abilityFormControl;
+    this.heroObj.clan = clanFormControl;
+    this.heroObj.highestXP = xpFormControl;
 
-    console.log(this.heroObj);
+    // adding to db.json
+    this.crudService
+      .addHero(this.heroObj)
+      .pipe(
+        tap((res) => {
+          this.closePopup();
+        })
+      )
+      .subscribe();
   }
 
+  // close the form
   closePopup() {
     this.ref.close();
   }
 
+  // form control
   getFormControl(formControlName: string) {
     return this.registerHeroGroup.get(formControlName);
   }
