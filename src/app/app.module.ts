@@ -29,6 +29,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { ConfirmationComponent } from './components/confirmation/confirmation.component';
+import { EditComponent } from './components/edit/edit.component';
 
 @NgModule({
   imports: [
@@ -61,6 +62,7 @@ import { ConfirmationComponent } from './components/confirmation/confirmation.co
     CardsComponent,
     FormComponent,
     ConfirmationComponent,
+    EditComponent,
   ],
   bootstrap: [AppComponent],
 })

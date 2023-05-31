@@ -18,15 +18,15 @@
     },
     {
       "id": 3,
-      "name": "Lyala",
-      "age": "3",
+      "name": "Cat",
+      "age": "2",
       "clan": "Marksman",
       "ability": "Healer",
-      "highestXP": "1700"
+      "highestXP": "1000"
     },
     {
       "id": 4,
-      "name": "Lyala",
+      "name": "Miya",
       "age": "3",
       "clan": "Marksman",
       "ability": "Healer",
@@ -34,10 +34,10 @@
     },
     {
       "id": 5,
-      "name": "Bear",
-      "age": "3",
-      "clan": "Tank",
-      "ability": "Defensive",
+      "name": "Tiger",
+      "age": "2",
+      "clan": "Marksman",
+      "ability": "Healer",
       "highestXP": "4000"
     }
   ]

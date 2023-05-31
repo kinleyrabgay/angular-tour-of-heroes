@@ -21,8 +21,8 @@ export class CrudService {
     return this.http.get<Hero[]>(this.apiURL);
   }
 
-  deleteHerok(hero: Hero): Observable<Hero> {
-    return this.http.delete<Hero>(this.apiURL + '/' + hero.id);
+  getHeroById(id: number): Observable<Hero> {
+    return this.http.get<Hero>(`${this.apiURL}/${id}`);
   }
 
   deleteHero(id: number): Observable<Hero> {

@@ -1,0 +1,148 @@
+<form class="form" [formGroup]="editHeroGroup" (ngSubmit)="onSubmit()">
+  <div class="form-headers">
+    <h1>Edit Hero Details</h1>
+    <mat-icon
+      mat-icon-button
+      (click)="closePopup()"
+      fontIcon="close"
+    ></mat-icon>
+  </div>
+
+  <div class="form-inputs">
+    <mat-form-field>
+      <mat-label>Name</mat-label>
+      <input
+        matInput
+        formControlName="nameFormControl"
+        [errorStateMatcher]="matcher"
+        placeholder="Ex. Domchu"
+      />
+      <mat-error
+        *ngIf="
+          getFormControl('nameFormControl')?.invalid &&
+          (getFormControl('nameFormControl')?.touched ||
+            getFormControl('nameFormControl')?.dirty)
+        "
+      >
+        <span *ngIf="getFormControl('nameFormControl')?.errors?.['required']"
+          >Name is <strong>required</strong></span
+        >
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Age</mat-label>
+      <mat-select
+        formControlName="ageFormControl"
+        [errorStateMatcher]="matcher"
+      >
+        <mat-option value="1">1</mat-option>
+        <mat-option value="2">2</mat-option>
+        <mat-option value="3">3</mat-option>
+        <mat-option value="4">4</mat-option>
+        <mat-option value="5">5</mat-option>
+      </mat-select>
+      <mat-error
+        *ngIf="
+          getFormControl('ageFormControl')?.invalid &&
+          (getFormControl('ageFormControl')?.touched ||
+            getFormControl('ageFormControl')?.dirty)
+        "
+      >
+        <span *ngIf="getFormControl('ageFormControl')?.errors?.['required']">
+          Age is <strong>required</strong></span
+        >
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Clan</mat-label>
+      <mat-select
+        formControlName="clanFormControl"
+        [errorStateMatcher]="matcher"
+      >
+        <mat-option value="Marksman">Marksman</mat-option>
+        <mat-option value="Tank">Tank</mat-option>
+        <mat-option value="Assasin">Assasin</mat-option>
+        <mat-option value="Fighter">Fighter</mat-option>
+        <mat-option value="Mage">Mage</mat-option>
+      </mat-select>
+      <mat-error
+        *ngIf="
+          getFormControl('clanFormControl')?.invalid &&
+          (getFormControl('clanFormControl')?.touched ||
+            getFormControl('clanFormControl')?.dirty)
+        "
+      >
+        <span *ngIf="getFormControl('clanFormControl')?.errors?.['required']">
+          Clan is <strong>required</strong>
+        </span>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Ability</mat-label>
+      <mat-select
+        formControlName="abilityFormControl"
+        [errorStateMatcher]="matcher"
+      >
+        <mat-option value="Firestorm">Firestorm</mat-option>
+        <mat-option value="Healer">Healer</mat-option>
+        <mat-option value="Defensive">Defensive</mat-option>
+      </mat-select>
+      <mat-error
+        *ngIf="
+          getFormControl('abilityFormControl')?.invalid &&
+          (getFormControl('abilityFormControl')?.touched ||
+            getFormControl('abilityFormControl')?.dirty)
+        "
+      >
+        <span
+          *ngIf="getFormControl('abilityFormControl')?.errors?.['required']"
+        >
+          Hero ability is <strong>required</strong>
+        </span>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Hihest XP</mat-label>
+      <input
+        matInput
+        formControlName="xpFormControl"
+        [errorStateMatcher]="matcher"
+        placeholder="Ex. 2000"
+      />
+      <mat-error
+        *ngIf="
+          getFormControl('xpFormControl')?.invalid &&
+          (getFormControl('xpFormControl')?.touched ||
+            getFormControl('xpFormControl')?.dirty)
+        "
+      >
+        <span *ngIf="getFormControl('xpFormControl')?.errors?.['required']"
+          >Hero XP is <strong>required</strong></span
+        >
+      </mat-error>
+    </mat-form-field>
+
+    <div class="form-actions">
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        [disabled]="editHeroGroup.invalid"
+      >
+        Save
+      </button>
+      <button
+        mat-flat-button
+        class="form-action-cancel"
+        type="button"
+        (click)="onNoClick()"
+      >
+        Cancel
+      </button>
+    </div>
+  </div>
+</form>

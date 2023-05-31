@@ -17,6 +17,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { ConfirmationComponent } from '../components/confirmation/confirmation.component';
+import { EditComponent } from '../components/edit/edit.component';
 
 @Component({
   selector: 'app-heroes',
@@ -102,8 +103,8 @@ export class HeroesComponent implements OnInit, AfterViewInit {
         message: 'Are you sure you want to delete this hero?',
       },
     });
-
     dialogRef.afterClosed().subscribe((result) => {
+      console.log(result);
       if (result) {
         this.crudService
           .deleteHero(id)
@@ -125,36 +126,18 @@ export class HeroesComponent implements OnInit, AfterViewInit {
     });
   }
 
-  // TUTORIAL-1 (IN-MEMORY)
-  // getHeroes(): void {
-  //   this.heroService.getHeroes().subscribe((heroes) => (this.heroes = heroes));
-  // }
-
-  // add(name: string): void {
-  //   name = name.trim();
-  //   if (!name) {
-  //     return;
-  //   }
-  //   this.heroService.addHero({ name } as Hero).subscribe((hero) => {
-  //     this.heroes.push(hero);
-  //   });
-  // }
-
-  // delete(hero: Hero): void {
-  //   this.heroes = this.heroes.filter((h) => h !== hero);
-  //   this.heroService.deleteHero(hero.id).subscribe();
-  // }
-
-  // deleteHero(hero: Hero): void {
-  //   console.log('Called H');
-  //   this.heroes = this.heroes.filter((h) => h !== hero);
-  //   this.heroService.deleteHero(hero.id).subscribe();
-  // }
+  editHero(id: number): void {
+    const dialogRef = this.dialog.open(EditComponent, {
+      width: '50%',
+      data: {
+        message: id,
+      },
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(result);
+      if (result) {
+        this.ngOnInit();
+      }
+    });
+  }
 }
-
-// export interface PeriodicElement {
-//   name: string;
-//   position: number;
-//   weight: number;
-//   symbol: string;
-// }
