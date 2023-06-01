@@ -39,6 +39,30 @@
       "clan": "Marksman",
       "ability": "Healer",
       "highestXP": "4000"
+    },
+    {
+      "id": 6,
+      "name": "Puppy",
+      "age": "2",
+      "clan": "Marksman",
+      "ability": "Healer",
+      "highestXP": "2000"
+    },
+    {
+      "id": 7,
+      "name": "Katu",
+      "age": "2",
+      "clan": "Marksman",
+      "ability": "Healer",
+      "highestXP": "4000"
+    },
+    {
+      "id": 8,
+      "name": "Boar",
+      "age": "5",
+      "clan": "Assasin",
+      "ability": "Healer",
+      "highestXP": "4000"
     }
   ]
 }

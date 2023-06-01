@@ -1,4 +1,11 @@
 /* DashboardComponent's private CSS styles */
+.top-heroes {
+  margin-top: 40px;
+
+  .hr {
+    max-width: 1000px;
+  }
+}
 
 h2 {
   text-align: center;

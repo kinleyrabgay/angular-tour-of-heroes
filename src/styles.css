@@ -34,10 +34,10 @@ button {
   margin-top: 1rem;
 } 
 
-button:hover {
+/* button:hover {
   background-color: black;
   color: white;
-}
+} */
 
 button:disabled {
   background-color: #eee;
