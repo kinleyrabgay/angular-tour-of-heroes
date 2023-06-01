@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { catchError, tap } from 'rxjs/operators';
+import { NgToastService } from 'ng-angular-popup';
 
 import {
   FormControl,
@@ -44,7 +45,8 @@ export class EditComponent implements OnInit {
   constructor(
     public ref: MatDialogRef<EditComponent>,
     private crudService: CrudService,
-    @Inject(MAT_DIALOG_DATA) public data: { message: number }
+    @Inject(MAT_DIALOG_DATA) public data: { message: number },
+    private toast: NgToastService
   ) {
     // create a reactive form
     this.editHeroGroup = new FormGroup({
@@ -101,7 +103,14 @@ export class EditComponent implements OnInit {
       .editHero(this.heroObj)
       .pipe(
         tap((res) => {
-          this.closePopup();
+          if (res) {
+            this.toast.success({
+              detail: 'Success Message',
+              summary: `Detail update for ${this.heroObj.name} successful`,
+              duration: 5000,
+            });
+            this.closePopup();
+          }
         })
       )
       .subscribe(() => {

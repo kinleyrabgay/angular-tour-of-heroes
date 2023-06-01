@@ -15,6 +15,7 @@ import { FormComponent } from '../components/form/form.component';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ConfirmationComponent } from '../components/confirmation/confirmation.component';
 import { EditComponent } from '../components/edit/edit.component';
+import { NgToastService } from 'ng-angular-popup';
 
 @Component({
   selector: 'app-heroes',
@@ -40,7 +41,11 @@ export class HeroesComponent implements OnInit, AfterViewInit {
   ];
   displayDatas = new MatTableDataSource<Hero>(this.heroesArr);
 
-  constructor(private crudService: CrudService, private dialog: MatDialog) {}
+  constructor(
+    private crudService: CrudService,
+    private dialog: MatDialog,
+    private toast: NgToastService
+  ) {}
 
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
@@ -76,10 +81,13 @@ export class HeroesComponent implements OnInit, AfterViewInit {
           this.heroesArr = res;
           // set data source after API call
           this.displayDatas.data = this.heroesArr;
-          console.log(this.heroesArr);
         }),
         catchError((err) => {
-          alert('Unable to get list of heroes');
+          this.toast.error({
+            detail: 'Error Message',
+            summary: 'Failed to get hero list',
+            duration: 5000,
+          });
           throw err;
         })
       )
@@ -100,7 +108,11 @@ export class HeroesComponent implements OnInit, AfterViewInit {
           .pipe(
             catchError((error: any) => {
               console.log(error);
-              alert('Unable to delete hero');
+              this.toast.error({
+                detail: 'Error Message',
+                summary: 'Failed to delete the hero',
+                duration: 5000,
+              });
               return throwError(error);
             })
           )
@@ -108,6 +120,11 @@ export class HeroesComponent implements OnInit, AfterViewInit {
             this.displayDatas.data = this.displayDatas.data.filter(
               (h: Hero) => h.id !== id
             );
+            this.toast.success({
+              detail: 'Success Message',
+              summary: 'Hero delete successful',
+              duration: 5000,
+            });
             // Refresh the table data after delete
             this.ngOnInit();
           });

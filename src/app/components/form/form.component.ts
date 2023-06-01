@@ -13,6 +13,7 @@ import {
   Validators,
   FormGroup,
 } from '@angular/forms';
+import { NgToastService } from 'ng-angular-popup';
 
 import { ErrorStateMatcher } from '@angular/material/core';
 import { CrudService } from 'src/app/api/crud.service';
@@ -49,7 +50,8 @@ export class FormComponent {
     private ref: MatDialogRef<FormComponent>,
     private crudService: CrudService,
     private dialog: MatDialog,
-    @Inject(MAT_DIALOG_DATA) public data: { message: number; type: string }
+    @Inject(MAT_DIALOG_DATA) public data: { message: number; type: string },
+    private toast: NgToastService
   ) {
     // create a reactive form
     this.registerHeroGroup = new FormGroup({
@@ -82,6 +84,11 @@ export class FormComponent {
       .addHero(this.heroObj)
       .pipe(
         tap((res) => {
+          this.toast.success({
+            detail: 'Success Message',
+            summary: `Added ${this.heroObj.name} successfully`,
+            duration: 5000,
+          });
           this.closePopup();
         })
       )

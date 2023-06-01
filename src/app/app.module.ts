@@ -32,6 +32,7 @@ import { ConfirmationComponent } from './components/confirmation/confirmation.co
 import { EditComponent } from './components/edit/edit.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
+import { NgToastModule } from 'ng-angular-popup';
 
 @NgModule({
   imports: [
@@ -55,6 +56,7 @@ import { MatTableModule } from '@angular/material/table';
     MatCardModule,
     MatPaginatorModule,
     MatTableModule,
+    NgToastModule,
   ],
   declarations: [
     AppComponent,

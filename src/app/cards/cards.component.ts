@@ -7,6 +7,7 @@ import { Hero } from '../model/hero';
 import { throwError } from 'rxjs';
 import { ConfirmationComponent } from '../components/confirmation/confirmation.component';
 import { EditComponent } from '../components/edit/edit.component';
+import { NgToastService } from 'ng-angular-popup';
 
 @Component({
   selector: 'app-cards',
@@ -18,7 +19,11 @@ export class CardsComponent implements OnInit {
   isButtonEnabled = true;
   heroesArr: Hero[] = [];
 
-  constructor(private dialog: MatDialog, private crudService: CrudService) {}
+  constructor(
+    private dialog: MatDialog,
+    private crudService: CrudService,
+    private toast: NgToastService
+  ) {}
   ngOnInit(): void {
     this.getAllHero();
   }
@@ -33,7 +38,11 @@ export class CardsComponent implements OnInit {
           console.log(this.heroesArr);
         }),
         catchError((err) => {
-          alert('Unable to get list of heroes');
+          this.toast.error({
+            detail: 'Error Message',
+            summary: 'Failed to get hero list',
+            duration: 5000,
+          });
           throw err;
         })
       )
@@ -53,13 +62,21 @@ export class CardsComponent implements OnInit {
           .deleteHero(id)
           .pipe(
             catchError((error: any) => {
-              console.log(error);
-              alert('Unable to delete hero');
+              this.toast.error({
+                detail: 'Error Message',
+                summary: 'Failed to delete the hero',
+                duration: 5000,
+              });
               return throwError(error);
             })
           )
           .subscribe(() => {
             this.heroesArr = this.heroesArr.filter((h: Hero) => h.id !== id);
+            this.toast.success({
+              detail: 'Success Message',
+              summary: 'Hero delete successful',
+              duration: 5000,
+            });
             // Refresh the table data after delete
             this.ngOnInit();
           });
