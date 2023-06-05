@@ -1,81 +1,49 @@
-/* HeroesComponent's private CSS styles */
-.heroes {
-  margin: 0 0 2em 0;
-  list-style-type: none;
-  padding: 0;
-  width: 15em;
-}
-.heroes li {
-  position: relative;
-  cursor: pointer;
+#hero-list-table {
+  margin-top: 20px;
+  padding: 1.5rem 2rem;
+
+  .table-header {
+    display: flex; 
+    flex-direction: row;
+    justify-content: space-between; 
+
+    & > h1 {
+      color: #369;
+    }
+  }
 }
 
-.heroes li:hover {
-  left: .1em;
+.header-form-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
 }
 
-.heroes a {
-  color: #333;
-  text-decoration: none;
-  background-color: #EEE;
-  margin: .5em;
-  padding: .3em 0;
-  height: 1.6em;
-  border-radius: 4px;
-  display: block;
-  width: 100%;
+.mat-row:hover {
+  background-color: #f0f0f0 !important;
 }
 
-.heroes a:hover {
-  color: #2c3a41;
-  background-color: #e6e6e6;
-}
-
-.heroes a:active {
-  background-color: #525252;
-  color: #fafafa;
-}
-
-.heroes .badge {
-  display: inline-block;
-  font-size: small;
+.delete-btn {
+  background-color: rgb(253, 84, 84);
   color: white;
-  padding: 0.8em 0.7em 0 0.7em;
-  background-color: #405061;
-  line-height: 1em;
-  position: relative;
-  left: -1px;
-  top: -4px;
-  height: 1.8em;
-  min-width: 16px;
-  text-align: right;
-  margin-right: .8em;
-  border-radius: 4px 0 0 4px;
+  height: auto;
+
+  &:hover {
+    background-color: red;
+  }
 }
 
-.add-button {
-  padding: .5rem 1.5rem;
-  font-size: 1rem;
-  margin-bottom: 2rem;
- }
- 
- .add-button:hover {
-   color: white;
-   background-color: #42545C;
- }
- 
- button.delete {
-   position: absolute;
-   left: 210px;
-   top: 5px;
-   background-color: white;
-   color:  #525252;
-   font-size: 1.1rem;
-   margin: 0;
-   padding: 1px 10px 3px 10px;
- }
- 
- button.delete:hover {
-   background-color: #525252;
-   color: white;
- }
+.flex-container {
+  display: flex;
+
+  .button-container {
+    justify-content: center;
+  }
+}
+
+
+
+

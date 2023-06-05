@@ -1,75 +1,31 @@
-import {
-  AfterViewInit,
-  ViewChild,
-  Component,
-  Input,
-  OnInit,
-} from '@angular/core';
-import { CrudService } from '../api/crud.service';
-import { catchError, tap } from 'rxjs/operators';
-import { Hero } from '../model/hero';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
-import { throwError } from 'rxjs';
-import { FormComponent } from '../components/form/form.component';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { FormComponent } from '../components/form/form.component';
+import { CrudService } from '../api/crud.service';
+import { tap, catchError } from 'rxjs/operators';
+import { Hero } from '../model/hero';
+import { throwError } from 'rxjs';
 import { ConfirmationComponent } from '../components/confirmation/confirmation.component';
 import { EditComponent } from '../components/edit/edit.component';
 import { NgToastService } from 'ng-angular-popup';
 
 @Component({
-  selector: 'app-heroes',
-  templateUrl: './heroes.component.html',
-  styleUrls: ['./heroes.component.css'],
+  selector: 'app-cards',
+  templateUrl: './cards.component.html',
+  styleUrls: ['./cards.component.css'],
 })
-export class HeroesComponent implements OnInit, AfterViewInit {
-  @Input() title: string = 'My Heros List';
-
-  // keep track of the form
-  isButtonEnabled = true;
+export class CardsComponent implements OnInit {
   dialogRef: MatDialogRef<FormComponent> | null = null;
-
+  isButtonEnabled = true;
   heroesArr: Hero[] = [];
-  displayedColumns: string[] = [
-    'id',
-    'name',
-    'age',
-    'clan',
-    'ability',
-    'highestXP',
-    'action',
-  ];
-  displayDatas = new MatTableDataSource<Hero>(this.heroesArr);
 
   constructor(
-    private crudService: CrudService,
     private dialog: MatDialog,
+    private crudService: CrudService,
     private toast: NgToastService
   ) {}
-
-  @ViewChild(MatPaginator)
-  paginator!: MatPaginator;
-  ngAfterViewInit(): void {
-    this.displayDatas.paginator = this.paginator;
-  }
-
   ngOnInit(): void {
     this.getAllHero();
-  }
-
-  openForm() {
-    if (this.isButtonEnabled) {
-      this.isButtonEnabled = false;
-      this.dialogRef = this.dialog.open(FormComponent, {
-        width: '50%',
-      });
-
-      this.dialogRef.afterClosed().subscribe(() => {
-        this.isButtonEnabled = true;
-        this.dialogRef = null;
-        this.ngOnInit();
-      });
-    }
   }
 
   // get hero
@@ -79,8 +35,7 @@ export class HeroesComponent implements OnInit, AfterViewInit {
       .pipe(
         tap((res) => {
           this.heroesArr = res;
-          // set data source after API call
-          this.displayDatas.data = this.heroesArr;
+          console.log(this.heroesArr);
         }),
         catchError((err) => {
           this.toast.error({
@@ -100,14 +55,13 @@ export class HeroesComponent implements OnInit, AfterViewInit {
         message: 'Are you sure you want to delete this hero?',
       },
     });
+
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(result);
       if (result) {
         this.crudService
           .deleteHero(id)
           .pipe(
             catchError((error: any) => {
-              console.log(error);
               this.toast.error({
                 detail: 'Error Message',
                 summary: 'Failed to delete the hero',
@@ -117,9 +71,7 @@ export class HeroesComponent implements OnInit, AfterViewInit {
             })
           )
           .subscribe(() => {
-            this.displayDatas.data = this.displayDatas.data.filter(
-              (h: Hero) => h.id !== id
-            );
+            this.heroesArr = this.heroesArr.filter((h: Hero) => h.id !== id);
             this.toast.success({
               detail: 'Success Message',
               summary: 'Hero delete successful',
@@ -137,7 +89,6 @@ export class HeroesComponent implements OnInit, AfterViewInit {
       width: '50%',
       data: {
         message: id,
-        type: 'edit',
       },
     });
     dialogRef.afterClosed().subscribe((result) => {
@@ -146,5 +97,20 @@ export class HeroesComponent implements OnInit, AfterViewInit {
         this.ngOnInit();
       }
     });
+  }
+
+  openForm() {
+    if (this.isButtonEnabled) {
+      this.isButtonEnabled = false;
+      this.dialogRef = this.dialog.open(FormComponent, {
+        width: '50%',
+      });
+
+      this.dialogRef.afterClosed().subscribe(() => {
+        this.isButtonEnabled = true;
+        this.dialogRef = null;
+        this.ngOnInit();
+      });
+    }
   }
 }

@@ -1,0 +1,39 @@
+form {
+    padding: 1.5rem;
+  }
+  
+  .form-headers {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  
+  .mat-icon {
+    cursor: pointer;
+  }
+  
+  .mat-icon:hover {
+    color: red;
+  }
+  
+  .form-inputs {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 20px;
+  }
+  
+  mat-form-field {
+    width: 100%;
+  }
+  
+  .form-action-cancel {
+    background-color: #eee; 
+    color: #000;
+  }
+  
+  .form-action-cancel:hover {
+    color: white;
+    background-color: red;
+  }
+  

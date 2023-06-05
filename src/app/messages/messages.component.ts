@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MessageService } from '../message.service';
 
 @Component({
@@ -7,6 +7,7 @@ import { MessageService } from '../message.service';
   styleUrls: ['./messages.component.css'],
 })
 export class MessagesComponent implements OnInit {
+  @Input() buttonName: string = '';
   constructor(public messageService: MessageService) {}
 
   ngOnInit(): void {}

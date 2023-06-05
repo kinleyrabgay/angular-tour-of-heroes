@@ -1,39 +1,48 @@
-/* HeroDetailComponent's private CSS styles */
-button {
+#hero-list-table {
+  margin-top: 20px;
+  padding: 1.5rem 2rem;
+
+  .table-header {
+    display: flex; 
+    flex-direction: row;
+    justify-content: space-between; 
+
+    & > h1 {
+      color: #369;
+    }
+  }
+}
+
+.header-form-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 50px;
   height: 50px;
-  margin-top: 50px;
-  background-color: #eee;
-  padding: 1rem;
-  border-radius: 15px;
-  font-size: 1rem;
+  border-radius: 50%;
 }
 
-button:hover {
-  background-color: #42545C;
-  color: #fff;
+.mat-row:hover {
+  background-color: #f0f0f0 !important;
 }
 
-button:disabled {
-  background-color: #eee;
-  color: #ccc;
-  cursor: auto;
+.delete-btn {
+  background-color: rgb(253, 84, 84);
+  color: white;
+  height: auto;
+
+  &:hover {
+    background-color: red;
+  }
 }
 
-span {
-  color: #435960;
-  font-weight: bold;
+.flex-container {
+  display: flex;
+
+  .button-container {
+    justify-content: center;
+  }
 }
 
-label {
-  color: #435960;
-  font-weight: bold;
-}
 
-input {
-  font-size: 1em;
-  padding: .5rem 1rem;
-  border: .5px solid #c3c3c3;
-  border-radius: 20px;
-}
 

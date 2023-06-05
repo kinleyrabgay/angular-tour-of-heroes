@@ -1,0 +1,107 @@
+import { Component, Inject } from '@angular/core';
+import {
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogRef,
+} from '@angular/material/dialog';
+import { tap } from 'rxjs/operators';
+
+import {
+  FormControl,
+  FormGroupDirective,
+  NgForm,
+  Validators,
+  FormGroup,
+} from '@angular/forms';
+import { NgToastService } from 'ng-angular-popup';
+
+import { ErrorStateMatcher } from '@angular/material/core';
+import { CrudService } from 'src/app/api/crud.service';
+import { Hero } from 'src/app/model/hero';
+import { ConfirmationComponent } from '../confirmation/confirmation.component';
+
+export class MyErrorStateMatcher implements ErrorStateMatcher {
+  isErrorState(
+    control: FormControl | null,
+    form: FormGroupDirective | NgForm | null
+  ): boolean {
+    const isSubmitted = form && form.submitted;
+    return !!(
+      control &&
+      control.invalid &&
+      (control.dirty || control.touched || isSubmitted)
+    );
+  }
+}
+
+@Component({
+  selector: 'app-form',
+  templateUrl: './form.component.html',
+  styleUrls: ['./form.component.css'],
+})
+export class FormComponent {
+  matcher = new MyErrorStateMatcher();
+  heroObj: Hero = new Hero();
+  dialogRef: MatDialogRef<FormComponent> | null = null;
+
+  // FormGroup
+  registerHeroGroup: FormGroup;
+  constructor(
+    private ref: MatDialogRef<FormComponent>,
+    private crudService: CrudService,
+    private dialog: MatDialog,
+    @Inject(MAT_DIALOG_DATA) public data: { message: number; type: string },
+    private toast: NgToastService
+  ) {
+    // create a reactive form
+    this.registerHeroGroup = new FormGroup({
+      nameFormControl: new FormControl('', [Validators.required]),
+      abilityFormControl: new FormControl('', [Validators.required]),
+      clanFormControl: new FormControl('', [Validators.required]),
+      ageFormControl: new FormControl(0, [Validators.required]),
+      xpFormControl: new FormControl('', [Validators.required]),
+    });
+  }
+
+  // Add the hero to the json-server
+  onSubmit() {
+    const {
+      nameFormControl,
+      ageFormControl,
+      abilityFormControl,
+      clanFormControl,
+      xpFormControl,
+    } = this.registerHeroGroup.value;
+
+    this.heroObj.name = nameFormControl;
+    this.heroObj.age = ageFormControl;
+    this.heroObj.ability = abilityFormControl;
+    this.heroObj.clan = clanFormControl;
+    this.heroObj.highestXP = xpFormControl;
+
+    // adding to db.json
+    this.crudService
+      .addHero(this.heroObj)
+      .pipe(
+        tap((res) => {
+          this.toast.success({
+            detail: 'Success Message',
+            summary: `Added ${this.heroObj.name} successfully`,
+            duration: 5000,
+          });
+          this.closePopup();
+        })
+      )
+      .subscribe();
+  }
+
+  // close the form
+  closePopup() {
+    this.ref.close();
+  }
+
+  // form control
+  getFormControl(formControlName: string) {
+    return this.registerHeroGroup.get(formControlName);
+  }
+}

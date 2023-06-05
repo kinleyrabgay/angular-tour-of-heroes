@@ -1,0 +1,49 @@
+<div class="add-btn">
+  <button
+    mat-fab
+    color="primary"
+    (click)="openForm()"
+    [disabled]="!isButtonEnabled"
+  >
+    <mat-icon>add</mat-icon>
+  </button>
+</div>
+
+<div class="hero-grid">
+  <div *ngFor="let hero of heroesArr">
+    <mat-card class="card">
+      <mat-card-header>
+        <div mat-card-avatar class="header-image"></div>
+        <mat-card-title>{{ hero.name }}</mat-card-title>
+        <mat-card-subtitle>Age: {{ hero.age }}</mat-card-subtitle>
+      </mat-card-header>
+      <img
+        mat-card-image
+        src="https://material.angular.io/assets/img/examples/shiba2.jpg"
+        alt="Photo of {{ hero.name }}"
+      />
+      <mat-card-content class="hero-content">
+        <p>Ability: {{ hero.ability }}</p>
+        <p>Clan: {{ hero.clan }}</p>
+        <p>Highest XP: {{ hero.highestXP }}</p>
+      </mat-card-content>
+      <mat-card-actions>
+        <div class="button-container">
+          <button mat-mini-fab color="warn" (click)="deleteHero(hero.id)">
+            <mat-icon>delete</mat-icon>
+          </button>
+          <button mat-mini-fab color="primary" (click)="editHero(hero.id)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button
+            mat-mini-fab
+            color="primary"
+            routerLink="/detail/{{ hero.id }}"
+          >
+            <mat-icon>visibility</mat-icon>
+          </button>
+        </div>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>
