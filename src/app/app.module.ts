@@ -33,6 +33,10 @@ import { EditComponent } from './components/edit/edit.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
 import { NgToastModule } from 'ng-angular-popup';
+import { PermissionComponent } from './components/permission/permission.component';
+import { HeroDetailsPipe } from './hero-details.pipe';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { AuthDirectiveDirective } from './auth-directive.directive';
 
 @NgModule({
   imports: [
@@ -57,6 +61,7 @@ import { NgToastModule } from 'ng-angular-popup';
     MatPaginatorModule,
     MatTableModule,
     NgToastModule,
+    MatSlideToggleModule,
   ],
   declarations: [
     AppComponent,
@@ -69,6 +74,9 @@ import { NgToastModule } from 'ng-angular-popup';
     FormComponent,
     ConfirmationComponent,
     EditComponent,
+    PermissionComponent,
+    HeroDetailsPipe,
+    AuthDirectiveDirective,
   ],
   bootstrap: [AppComponent],
 })

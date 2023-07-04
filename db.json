@@ -9,14 +9,6 @@
       "highestXP": "1500"
     },
     {
-      "id": 2,
-      "name": "Doggy",
-      "age": "2",
-      "clan": "Marksman",
-      "ability": "Healer",
-      "highestXP": "1500"
-    },
-    {
       "id": 3,
       "name": "Cat",
       "age": "2",
@@ -53,14 +45,6 @@
       "name": "Katu",
       "age": "2",
       "clan": "Marksman",
-      "ability": "Healer",
-      "highestXP": "4000"
-    },
-    {
-      "id": 8,
-      "name": "Boar",
-      "age": "5",
-      "clan": "Assasin",
       "ability": "Healer",
       "highestXP": "4000"
     }
