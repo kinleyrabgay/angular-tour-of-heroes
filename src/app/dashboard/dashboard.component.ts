@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Hero } from '../hero';
+import { Hero } from '../gql/hero/hero';
 import { CrudService } from '../api/crud.service';
+import { Apollo } from 'apollo-angular';
+import { GET_Heroes } from '../gql/hero-query';
 
 @Component({
   selector: 'app-dashboard',
@@ -10,15 +12,19 @@ import { CrudService } from '../api/crud.service';
 export class DashboardComponent implements OnInit {
   heroes: Hero[] = [];
 
-  constructor(private crudService: CrudService) {}
+  constructor(private crudService: CrudService, private apollo: Apollo) {}
 
   ngOnInit(): void {
     this.getHeroes();
   }
 
   getHeroes(): void {
-    this.crudService
-      .getAllHero()
-      .subscribe((heroes) => (this.heroes = heroes.slice(1, 5)));
+    this.apollo
+      .watchQuery<any>({
+        query: GET_Heroes, // Use the GET_Heroes query
+      })
+      .valueChanges.subscribe(({ data }) => {
+        this.heroes = data.allHeros.slice(1, 5); // Update the heroes array
+      });
   }
 }

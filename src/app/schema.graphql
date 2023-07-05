@@ -1,0 +1,32 @@
+type Hero {
+  id: ID!
+  name: String!
+  age: Int!
+  clan: String!
+  ability: String!
+  highestXP: String!
+}
+
+type Query {
+  heroes: [Hero!]!
+  hero(id: ID!): Hero
+}
+
+type Mutation {
+  addHero(
+    name: String!
+    age: Int!
+    clan: String!
+    ability: String!
+    highestXP: String!
+  ): Hero!
+  deleteHero(id: ID!): Hero!
+  updateHero(
+    id: ID!
+    name: String!
+    age: Int!
+    clan: String!
+    ability: String!
+    highestXP: String!
+  ): Hero!
+}

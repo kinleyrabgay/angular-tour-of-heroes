@@ -9,7 +9,6 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
-import { HeroService } from '../hero.service';
 import { CrudService } from '../api/crud.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
@@ -20,6 +19,10 @@ import { throwError } from 'rxjs';
 import { EditComponent } from '../components/edit/edit.component';
 import { ConfirmationComponent } from '../components/confirmation/confirmation.component';
 import { FormComponent } from '../components/form/form.component';
+import { Apollo } from 'apollo-angular';
+import { GET_Heroes, Heros_ById } from '../gql/hero-query';
+import { DELETE_Hero } from '../gql/hero-mutation';
+import { NgToastService } from 'ng-angular-popup';
 
 @Component({
   selector: 'app-hero-detail',
@@ -50,7 +53,9 @@ export class HeroDetailComponent implements OnInit {
     private crudService: CrudService,
     private dialog: MatDialog,
     private route: ActivatedRoute,
-    private location: Location
+    private location: Location,
+    private apollo: Apollo,
+    private toast: NgToastService
   ) {}
 
   @ViewChild(MatPaginator)
@@ -65,13 +70,19 @@ export class HeroDetailComponent implements OnInit {
 
   getHero(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.crudService.getHeroById(id).subscribe((res) => {
-      this.heroObj = res;
-      this.title = res.name;
-      this.heroesArr.push(this.heroObj);
-      this.displayDatas.data = this.heroesArr;
-      console.log(this.heroesArr);
-    });
+    this.apollo
+      .watchQuery<{ allHeros: Hero[] }>({
+        query: Heros_ById,
+        variables: {
+          heroFilter: {
+            id: id,
+          },
+        },
+      })
+      .valueChanges.subscribe(({ data }) => {
+        const heroObj = data.allHeros[0];
+        this.displayDatas.data = [heroObj];
+      });
   }
 
   goBack(): void {
@@ -102,21 +113,46 @@ export class HeroDetailComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       console.log(result);
       if (result) {
-        this.crudService
-          .deleteHero(id)
+        this.apollo
+          .mutate<{ removeHero: Hero }>({
+            mutation: DELETE_Hero,
+            variables: {
+              id: id.toString(),
+            },
+            update: (cache) => {
+              const existingHeroes = cache.readQuery<{ allHeros: Hero[] }>({
+                query: GET_Heroes,
+              });
+
+              if (existingHeroes && existingHeroes.allHeros) {
+                const updatedHeroes = existingHeroes.allHeros.filter(
+                  (hero) => hero.id !== id
+                );
+
+                cache.writeQuery({
+                  query: GET_Heroes,
+                  data: { allHeros: updatedHeroes },
+                });
+              }
+            },
+          })
           .pipe(
             catchError((error: any) => {
               console.log(error);
-              alert('Unable to delete hero');
+              this.toast.error({
+                detail: 'Error Message',
+                summary: 'Failed to delete the hero',
+                duration: 5000,
+              });
               return throwError(error);
             })
           )
           .subscribe(() => {
-            this.displayDatas.data = this.displayDatas.data.filter(
-              (h: Hero) => h.id !== id
-            );
-            // Refresh the table data after delete
-            this.ngOnInit();
+            this.toast.success({
+              detail: 'Success Message',
+              summary: 'Hero delete successful',
+              duration: 5000,
+            });
           });
       }
     });

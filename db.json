@@ -63,6 +63,14 @@
       "clan": "Assasin",
       "ability": "Healer",
       "highestXP": "4000"
+    },
+    {
+      "id": 9,
+      "name": "KP",
+      "age": "3",
+      "clan": "Tank",
+      "ability": "Firestorm",
+      "highestXP": "2000"
     }
   ]
 }
