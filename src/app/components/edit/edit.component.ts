@@ -2,7 +2,6 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { catchError, tap } from 'rxjs/operators';
 import { NgToastService } from 'ng-angular-popup';
-
 import {
   FormControl,
   FormGroupDirective,
@@ -12,9 +11,10 @@ import {
 } from '@angular/forms';
 
 import { ErrorStateMatcher } from '@angular/material/core';
-import { CrudService } from 'src/app/api/crud.service';
-import { Hero } from 'src/app/model/hero';
-import { ConfirmationComponent } from '../confirmation/confirmation.component';
+import { Hero } from 'src/app/gql/hero/hero';
+import { Apollo } from 'apollo-angular';
+import { Heros_ById } from 'src/app/gql/hero-query';
+import { UPDATE_Hero } from 'src/app/gql/hero-mutation';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(
@@ -37,16 +37,15 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 })
 export class EditComponent implements OnInit {
   matcher = new MyErrorStateMatcher();
-  heroObj: Hero = new Hero();
   // dialogRef: MatDialogRef<EditComponent> | null = null;
 
   // FormGroup
   editHeroGroup: FormGroup;
   constructor(
     public ref: MatDialogRef<EditComponent>,
-    private crudService: CrudService,
     @Inject(MAT_DIALOG_DATA) public data: { message: number },
-    private toast: NgToastService
+    private toast: NgToastService,
+    private apollo: Apollo
   ) {
     // create a reactive form
     this.editHeroGroup = new FormGroup({
@@ -59,61 +58,58 @@ export class EditComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.crudService
-      .getHeroById(this.data.message)
-      .pipe(
-        tap((res) => {
-          this.heroObj = res;
-          this.editHeroGroup.setValue({
-            nameFormControl: this.heroObj.name,
-            abilityFormControl: this.heroObj.ability,
-            clanFormControl: this.heroObj.clan,
-            ageFormControl: this.heroObj.age,
-            xpFormControl: this.heroObj.highestXP,
-          });
-        }),
-        catchError((err) => {
-          alert('Unable to get hero data');
-          throw err;
-        })
-      )
-      .subscribe();
+    this.apollo
+      .watchQuery<{ allHeros: Hero[] }>({
+        query: Heros_ById,
+        variables: {
+          heroFilter: {
+            id: this.data.message,
+          },
+        },
+      })
+      .valueChanges.subscribe(({ data }) => {
+        const heroObj = data.allHeros[0];
+        console.log(heroObj);
+
+        // Set the value of the form group
+        this.editHeroGroup.setValue({
+          nameFormControl: heroObj.name,
+          ageFormControl: heroObj.age,
+          clanFormControl: heroObj.clan,
+          abilityFormControl: heroObj.ability,
+          xpFormControl: heroObj.highestXP,
+        });
+      });
   }
 
   // Add the hero to the json-server
   onSubmit() {
     const {
       nameFormControl,
-      ageFormControl,
       abilityFormControl,
       clanFormControl,
       xpFormControl,
     } = this.editHeroGroup.value;
 
-    this.heroObj.name = nameFormControl;
-    this.heroObj.age = ageFormControl;
-    this.heroObj.ability = abilityFormControl;
-    this.heroObj.clan = clanFormControl;
-    this.heroObj.highestXP = xpFormControl;
+    const ageFormControl = parseInt(
+      this.editHeroGroup.get('ageFormControl')?.value
+    );
+    const heroId = this.data.message;
 
-    console.log(this.heroObj);
-
-    // adding to db.json
-    this.crudService
-      .editHero(this.heroObj)
-      .pipe(
-        tap((res) => {
-          if (res) {
-            this.toast.success({
-              detail: 'Success Message',
-              summary: `Detail update for ${this.heroObj.name} successful`,
-              duration: 5000,
-            });
-            this.closePopup();
-          }
-        })
-      )
-      .subscribe(() => {
+    // Perform the mutation to update the hero
+    this.apollo
+      .mutate<{ updateHero: Hero }>({
+        mutation: UPDATE_Hero,
+        variables: {
+          id: heroId,
+          name: nameFormControl,
+          age: ageFormControl,
+          clan: clanFormControl,
+          ability: abilityFormControl,
+          highestXP: xpFormControl,
+        },
+      })
+      .subscribe(({ data }) => {
         this.onYesClick();
       });
   }

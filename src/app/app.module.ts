@@ -6,9 +6,6 @@ import { CommonModule } from '@angular/common';
 import { FormComponent } from './components/form/form.component';
 import { AppRoutingModule } from './app-routing.module';
 
-import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { InMemoryDataService } from './in-memory-data.service';
-
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 
@@ -33,7 +30,9 @@ import { EditComponent } from './components/edit/edit.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
 import { NgToastModule } from 'ng-angular-popup';
-
+import { GraphQLModule } from './graphql.module';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { PermissionComponent } from './components/permission/permission.component';
 @NgModule({
   imports: [
     BrowserModule,
@@ -57,6 +56,8 @@ import { NgToastModule } from 'ng-angular-popup';
     MatPaginatorModule,
     MatTableModule,
     NgToastModule,
+    MatSlideToggleModule,
+    GraphQLModule,
   ],
   declarations: [
     AppComponent,
@@ -69,6 +70,7 @@ import { NgToastModule } from 'ng-angular-popup';
     FormComponent,
     ConfirmationComponent,
     EditComponent,
+    PermissionComponent,
   ],
   bootstrap: [AppComponent],
 })

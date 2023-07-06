@@ -1,9 +1,12 @@
 <h1>{{ title }}</h1>
-<nav>
-  <a routerLink="/dashboard">Dashboard</a>
-  <a routerLink="/heroes">Heroes</a>
-  <a routerLink="/cards">Cards</a>
-</nav>
+<div class="navbar__list">
+  <nav>
+    <a routerLink="/dashboard">Dashboard</a>
+    <a routerLink="/heroes">Heroes</a>
+    <a routerLink="/cards">Cards</a>
+  </nav>
+  <app-permission></app-permission>
+</div>
 
 <router-outlet></router-outlet>
 <lib-ng-toast></lib-ng-toast>

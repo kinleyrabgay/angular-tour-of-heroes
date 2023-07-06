@@ -4,7 +4,6 @@ import {
   MatDialog,
   MatDialogRef,
 } from '@angular/material/dialog';
-import { tap } from 'rxjs/operators';
 
 import {
   FormControl,
@@ -16,9 +15,10 @@ import {
 import { NgToastService } from 'ng-angular-popup';
 
 import { ErrorStateMatcher } from '@angular/material/core';
-import { CrudService } from 'src/app/api/crud.service';
-import { Hero } from 'src/app/model/hero';
-import { ConfirmationComponent } from '../confirmation/confirmation.component';
+import { Hero } from 'src/app/gql/hero/hero';
+import { Apollo } from 'apollo-angular';
+import { GET_Heroes } from 'src/app/gql/hero-query';
+import { CREATE_Hero } from 'src/app/gql/hero-mutation';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(
@@ -41,16 +41,14 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 })
 export class FormComponent {
   matcher = new MyErrorStateMatcher();
-  heroObj: Hero = new Hero();
   dialogRef: MatDialogRef<FormComponent> | null = null;
 
   // FormGroup
   registerHeroGroup: FormGroup;
   constructor(
     private ref: MatDialogRef<FormComponent>,
-    private crudService: CrudService,
-    private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: { message: number; type: string },
+    private apollo: Apollo,
     private toast: NgToastService
   ) {
     // create a reactive form
@@ -67,32 +65,54 @@ export class FormComponent {
   onSubmit() {
     const {
       nameFormControl,
-      ageFormControl,
       abilityFormControl,
       clanFormControl,
       xpFormControl,
     } = this.registerHeroGroup.value;
+    const ageFormControl = parseInt(
+      this.registerHeroGroup.get('ageFormControl')?.value
+    );
 
-    this.heroObj.name = nameFormControl;
-    this.heroObj.age = ageFormControl;
-    this.heroObj.ability = abilityFormControl;
-    this.heroObj.clan = clanFormControl;
-    this.heroObj.highestXP = xpFormControl;
-
-    // adding to db.json
-    this.crudService
-      .addHero(this.heroObj)
-      .pipe(
-        tap((res) => {
-          this.toast.success({
-            detail: 'Success Message',
-            summary: `Added ${this.heroObj.name} successfully`,
-            duration: 5000,
+    this.apollo
+      .mutate<{ createHero: Hero }>({
+        mutation: CREATE_Hero,
+        variables: {
+          name: nameFormControl,
+          age: ageFormControl,
+          clan: clanFormControl,
+          ability: abilityFormControl,
+          highestXP: xpFormControl,
+        },
+        update: (cache, { data }) => {
+          const existingHeroes = cache.readQuery<{ allHeros: Hero[] }>({
+            query: GET_Heroes,
           });
-          this.closePopup();
-        })
-      )
-      .subscribe();
+
+          if (existingHeroes && data && data.createHero) {
+            const updatedHeroes = [...existingHeroes.allHeros, data.createHero];
+
+            cache.writeQuery({
+              query: GET_Heroes,
+              data: { allHeros: updatedHeroes },
+            });
+          }
+        },
+      })
+      .subscribe(
+        ({ data }: any) => {
+          if (data) {
+            this.toast.success({
+              detail: 'Success Message',
+              summary: 'Hero added successful',
+              duration: 5000,
+            });
+            this.closePopup();
+          }
+        },
+        (err) => {
+          console.log(err);
+        }
+      );
   }
 
   // close the form
